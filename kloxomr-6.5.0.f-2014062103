@@ -1,0 +1,37 @@
+#!/bin/bash
+clear
+printf "==========================================\n"
+printf "Kloxo MR ho tro CenOS cac phien ban tuy nhien minh khuyen ban nen su dung CenOS 6.x tro nen\n"
+printf "==========================================\n"
+printf "Chuan bi cai dat KloxoMr tren VPS cua ban\n"
+printf "==========================================\n"
+printf "Trong qua trinh cai dat, ban chon Y moi khi duoc hoi de hoan thanh cai dat nhe\n"
+printf "==========================================\n"
+printf "Qua trinh cai dat se bat dau trong 10 giay nua \n"
+sleep 10
+cd /
+yum update -y
+yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
+yum install telnet wget -y
+setenforce 0
+echo 'SELINUX=disabled' > /etc/selinux/config
+cd /
+wget https://github.com/mustafaramadhan/kloxo/blob/rpms/release/neutral/noarch/kloxomr-6.5.0.f-2014062103.mr.noarch.rpm --no-check-certificate
+rpm -ivh kloxomr-6.5.0.f-2014062103.mr.noarch.rpm
+cd /
+yum clean all
+yum install yum-plugin-replace -y
+yum replace mysql --replace-with=mysql55 -y
+chkconfig mysqld on
+yum install kloxomr -y
+sh /script/upcp
+clear
+printf "==========================================\n"
+printf "Da hoan thanh cai dat KloxoMR tren VPS cua ban\n"
+printf "==========================================\n"
+printf "Chuc ban thanh cong \n"
+printf "==========================================\n"
+printf "VPS cua ban se reboot sau 5s nua.............. \n"
+sleep 5
+reboot 
+exit
